@@ -4,6 +4,8 @@ export default {
   config: {
     screens: {
       notFound: "*",
+      onboarding: 'onboarding',
+      informations: 'informations',
       root: {
         screens: {
           tabOne: {
