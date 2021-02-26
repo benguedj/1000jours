@@ -14,35 +14,35 @@ export default function TabOneScreen() {
   const steps = [
     {
       title: "Projet de parentalité",
-      icon: "https://upload.wikimedia.org/wikipedia/commons/2/24/Circle-icons-image.svg"
+      icon: "./assets/images/step.svg"
     },
     {
       title: "Conception",
-      icon: "https://upload.wikimedia.org/wikipedia/commons/2/24/Circle-icons-image.svg"
+      icon: "./assets/images/step.svg"
     },
     {
       title: "Début de grossesse",
-      icon: "https://upload.wikimedia.org/wikipedia/commons/2/24/Circle-icons-image.svg"
+      icon: "./assets/images/step.svg"
     },
     {
       title: "Suite et fin de grossesse",
-      icon: "https://upload.wikimedia.org/wikipedia/commons/2/24/Circle-icons-image.svg"
+      icon: "./assets/images/step.svg"
     },
     {
       title: "Accouchement",
-      icon: "https://upload.wikimedia.org/wikipedia/commons/2/24/Circle-icons-image.svg"
+      icon: "./assets/images/step.svg"
     },
     {
       title: "Ses 3 premiers mois",
-      icon: "https://upload.wikimedia.org/wikipedia/commons/2/24/Circle-icons-image.svg"
+      icon: "./assets/images/step.svg"
     },
     {
       title: "De ses 4 mois à 1 an",
-      icon: "https://upload.wikimedia.org/wikipedia/commons/2/24/Circle-icons-image.svg"
+      icon: "./assets/images/step.svg"
     },
     {
       title: "De sa 1ère année à sa 2ème année",
-      icon: "https://upload.wikimedia.org/wikipedia/commons/2/24/Circle-icons-image.svg"
+      icon: "./assets/images/step.svg"
     },
   ];
 

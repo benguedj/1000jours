@@ -4,6 +4,8 @@ export default {
   prefixes: [Linking.makeUrl('/')],
   config: {
     screens: {
+      Onboarding: 'Onboarding',
+      Informations: 'Informations',
       Root: {
         screens: {
           TabOne: {
