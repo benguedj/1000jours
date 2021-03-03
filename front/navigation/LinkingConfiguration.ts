@@ -5,7 +5,7 @@ export default {
   config: {
     screens: {
       Onboarding: 'Onboarding',
-      Informations: 'Informations',
+      Profile: 'Profile',
       Root: {
         screens: {
           TabOne: {
