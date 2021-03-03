@@ -1,178 +1,129 @@
 import * as React from 'react';
-import { Button, Image, StyleSheet, Text } from 'react-native';
+import { Button, Image, ImageSourcePropType, StyleSheet, Text, Dimensions } from 'react-native';
 import { View } from '../components/Themed';
-import ViewPager from '@react-native-community/viewpager';
-import CheckBox from 'react-native-check-box';
-import { UserContext } from '../models/user-context';
+import { SwiperFlatList } from 'react-native-swiper-flatlist';
+import Colors from '../constants/Colors';
 
 interface Props {
   navigation: any
 }
 interface SlideView {
   title: string,
-  image: string,
+  image: ImageSourcePropType,
   description: string,
 }
 
-export class Onboarding extends React.Component<Props, {userContext: UserContext}> {
-
-  userContext: UserContext = {
-    situations: [
-      {id: 1, label: 'J\'ai en projet d\'avoir un enfant',  isChecked: false},
-      {id: 2, label: 'Je cherche à concevoir un enfant',    isChecked: false},
-      {id: 3, label: 'J\'attends un enfant',                isChecked: false},
-      {id: 4, label: 'J\'ai un enfant',                     isChecked: false},
-      {id: 5, label: 'J\'ai plusieurs enfants',             isChecked: false},
-      {id: 6, label: 'Je suis un professionnel de santé',   isChecked: false},
-    ],
-    childBirthday: null
-  };
+export class Onboarding extends React.Component<Props> {
 
   appName = '1000 JOURS APP\'';
   slideViews: SlideView[] = [
     { 
       title: 'Bienvenue sur l\'application', 
-      image: './assets/images/icon.png', 
+      image: require('../assets/images/Humaaans-3-Characters.png'), 
       description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Accumsan tortor posuere ac ut consequat semper viverra. Purus in mollis nunc sed id.'
     },
     { 
       title: 'Trouver les informations', 
-      image: './assets/images/icon.png', 
+      image: require('../assets/images/Humaaans-Sitting.png'), 
       description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Accumsan tortor posuere ac ut consequat semper viverra. Purus in mollis nunc sed id.'
     },
     { 
       title: 'Connaître les différentes étapes', 
-      image: './assets/images/icon.png', 
+      image: require('../assets/images/Humaaans-2-Characters.png'), 
       description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Accumsan tortor posuere ac ut consequat semper viverra. Purus in mollis nunc sed id.'
     }
   ];
-
-  screen2 = {
-    title: 'Votre profil',
-    image: './assets/images/icon.png',
-  };
-
-  constructor(props: Props) {
-    super(props);
-    this.state = { 
-      userContext: this.userContext
-    };
-  }
   
   getSlideViews = () => {
     return this.slideViews.map((slideView, index) => {
         return ( 
-        <View key={index}>
-          <View>
-            <Image source={{uri: slideView.image}}/>
+        <View style={[styles.swipeView, styles.justifyContentCenter]} key={index}>
+          <View style={[styles.justifyContentCenter]}>
+            <Image source={slideView.image}/>
           </View>
-          <Text style={[styles.title]}>{slideView.title}</Text>
-          <Text style={[styles.description]}>{slideView.description}</Text>
+          <Text style={[styles.title, styles.textAlignCenter]}>{slideView.title}</Text>
+          <Text style={[styles.textAlignCenter]}>{slideView.description}</Text>
         </View>
       )
     });
   }
 
-  getChoices = () => {
-    return this.userContext.situations.map((situation, index) =>
-      { 
-        return (
-          <CheckBox 
-            key={index}
-            style={[styles.checkbox]}
-            onClick={()=>{
-              situation.isChecked = !situation.isChecked;
-              this.setState({ 
-                userContext: this.userContext
-              });
-            }}
-            isChecked={situation.isChecked}
-            rightText={situation.label}
-          />
-        );
-      }
-    );
-  }
-
   render() {
     return (
       <View style={[styles.mainContainer]}>
-        <Text style={[styles.appName]}>{this.appName}</Text>
-        <ViewPager style={[styles.flex]} initialPage={0}>
-          <View key="1">
-            
-            <ViewPager style={[styles.flex]} initialPage={0} showPageIndicator={true}>
-              {this.getSlideViews()}
-            </ViewPager>
-            
-            <View style={[styles.buttonsContainer]}>
-              <View style={[styles.buttonContainer]}>
-                <Button title="Passer" onPress={()=>{}}/>
-              </View>
-              <View style={[styles.buttonContainer]}>
-                <Button title="Suivant" onPress={()=>{}}/>
-              </View>
-            </View>
+        <View style={[styles.header, styles.justifyContentCenter]}>
+          <Text style={[styles.appName]}>{this.appName}</Text>
+        </View>
+        <View style={[styles.body, styles.justifyContentCenter]}>
+          <SwiperFlatList
+            autoplay={false}
+            showPagination
+            paginationDefaultColor='lightgray'
+            paginationActiveColor={Colors.primaryColor}
+            paginationStyleItem={styles.swipePaginationItem}>
+            {this.getSlideViews()}
+          </SwiperFlatList>
+        </View>
+        
+        <View style={[styles.footer, styles.justifyContentCenter]}>
+          <View style={[styles.buttonContainer]}>
+            <Button title="Passer" onPress={()=>{}}/>
           </View>
-          <View style={[styles.flex]} key="2">
-            <View>
-              <Image source={{uri: this.screen2.image}}/>
-            </View>
-            <Text style={[styles.title]}>{this.screen2.title}</Text>
-            <View style={[styles.flex]}>
-              {this.getChoices()}
-            </View>
-            <View style={[styles.buttonsContainer]}>
-              <View style={[styles.buttonContainer]}>
-                <Button title="Passer" onPress={()=>{}}/>
-              </View>
-              <View style={[styles.buttonContainer]}>
-                <Button title="Valider" onPress={()=>{
-                  this.props.navigation.navigate('Root');
-                }}/>
-              </View>
-            </View>
+          <View style={[styles.buttonContainer]}>
+            <Button title="Suivant" onPress={()=>{
+              this.props.navigation.navigate('Profile');
+            }}/>
           </View>
-        </ViewPager>
+        </View>
       </View>
     );
   }
 }
 
+const width = Dimensions.get('window').width - 40;
 const styles = StyleSheet.create({
-  flex: {
-    flex: 1,
-  },
   mainContainer: {
-    backgroundColor: 'white',
-    paddingTop: 44,
+    paddingTop: 30,
     paddingLeft: 15,
     paddingRight: 15,
     flex: 1,
     flexDirection: 'column',
   },
+  header: {
+    flex: 0.5,
+  },
+  body: {
+    flex: 4,
+  },
+  footer: {
+    flex: 1,
+    flexDirection: 'row',
+  },
   appName: {
     fontSize: 25,
     fontWeight: 'bold',
-    paddingTop: 20,
-    paddingBottom: 30
+    color: Colors.primaryColor,
+  },
+  swipeView: {
+    width: Dimensions.get('window').width - 30,
+  },
+  swipePaginationItem: {
+    width: 30,
+    height: 5,
+  },
+  justifyContentCenter: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  textAlignCenter: {
+    textAlign: 'center',
   },
   title: {
+    color: Colors.primaryColor,
     fontSize: 18,
     fontWeight: 'bold',
     paddingTop: 10,
-    paddingBottom: 10
-  },
-  description: {
-
-  },
-  checkbox: {
-    height: 40,
-  },
-  buttonsContainer: {
-    paddingTop: 50,
-    paddingBottom: 25,
-    flexDirection: 'row',
+    paddingBottom: 10,
   },
   buttonContainer: {
     flex: 1,
