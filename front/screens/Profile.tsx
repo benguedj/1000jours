@@ -1,21 +1,21 @@
 import * as React from 'react';
 import { Button, Image, ImageSourcePropType, StyleSheet, Text, ScrollView } from 'react-native';
 import CheckBox from 'react-native-check-box';
-import { colors } from 'react-native-swiper-flatlist/src/themes';
 import { View } from '../components/Themed';
 import Colors from '../constants/Colors';
-import { UserContext } from '../models/user-context';
+import { UserContext, UserSituation } from '../types';
+import profileImage from '../assets/images/Humaaans-Space1.png';
 
 interface Props {
   navigation: any
 }
-export class Profile extends React.Component<Props, {userContext: UserContext}> {
+export const Profile: React.FC = ({ navigation }) => {
 
-  appName = '1000 JOURS APP\'';
-  image: ImageSourcePropType = require('../assets/images/Humaaans-Space1.png');
-  title = 'Votre profil';
+  const appName = '1000 JOURS APP\'';
+  const image: ImageSourcePropType = profileImage;
+  const title = 'Votre profil';
   
-  userContext: UserContext = {
+  const defaultUserContext: UserContext = {
     situations: [
       {id: 1, label: 'J\'ai en projet d\'avoir un enfant',  isChecked: false},
       {id: 2, label: 'Je cherche à concevoir un enfant',    isChecked: false},
@@ -27,65 +27,57 @@ export class Profile extends React.Component<Props, {userContext: UserContext}> 
     childBirthday: null
   };
 
-  constructor(props: Props) {
-    super(props);
-    this.state = { 
-      userContext: this.userContext
-    };
-  }
+  const [userContext, setUserContext] = React.useState<UserContext>(defaultUserContext);
+  const updateSituation = (situation: UserSituation) => {
+    setUserContext( (previousUserContext) => {
+      const newSituations = previousUserContext.situations.map((item) => {
+        if (item.id === situation.id) {
+          console.log(!situation.isChecked);
+          return { ...item, isChecked: !situation.isChecked };
+        } else {
+          return item;
+        }
+      });
+      return {...previousUserContext, situations: newSituations}
+    });
+  };
 
-  getChoices = () => {
-    return this.userContext.situations.map((situation, index) =>
-      { 
-        return (
-          <CheckBox 
-            key={index}
-            style={[styles.checkbox]}
-            onClick={()=>{
-              situation.isChecked = !situation.isChecked;
-              this.setState({ 
-                userContext: this.userContext
-              });
-            }}
-            isChecked={situation.isChecked}
-            rightText={situation.label}
-            checkBoxColor={Colors.primaryColor}
-          />
-        );
-      }
-    );
-  }
-
-  render() {
-    return (
-      
-      <View style={[styles.mainContainer]}>
-        <View style={[styles.header, styles.justifyContentCenter]}>
-          <Text style={[styles.appName]}>{this.appName}</Text>
-        </View>
-        <ScrollView style={[styles.body]}>
-          <View style={[styles.justifyContentCenter]}>
-            <Image source={this.image}/>
-          </View>
-          <Text style={[styles.title, styles.textAlignCenter]}>{this.title}</Text>
-          <View style={[styles.choices]}>
-            {this.getChoices()}
-          </View>
-          <View style={[styles.footer, styles.justifyContentCenter]}>
-            <View style={[styles.buttonContainer]}>
-              <Button title="Passer" onPress={()=>{}}/>
-            </View>
-            <View style={[styles.buttonContainer]}>
-              <Button title="Valider" onPress={()=>{
-                this.props.navigation.navigate('Root');
-              }}/>
-            </View>
-          </View>
-        </ScrollView>
-        
+  return (    
+    <View style={[styles.mainContainer]}>
+      <View style={[styles.header, styles.justifyContentCenter]}>
+        <Text style={[styles.appName]}>{appName}</Text>
       </View>
-    );
-  }
+      <ScrollView style={[styles.body]}>
+        <View style={[styles.justifyContentCenter]}>
+          <Image source={image}/>
+        </View>
+        <Text style={[styles.title, styles.textAlignCenter]}>{title}</Text>
+        <View style={[styles.choices]}>
+          {userContext.situations.map((situation, index) =>
+          { 
+            return (
+              <CheckBox 
+                key={index}
+                style={[styles.checkbox]}
+                onClick={() => updateSituation(situation)}
+                isChecked={situation.isChecked}
+                rightText={situation.label}
+                checkBoxColor={Colors.primaryColor}
+              />
+            );
+          })}
+        </View>
+        <View style={[styles.footer, styles.justifyContentCenter]}>
+          <View style={[styles.buttonContainer]}>
+            <Button title="Passer" onPress={()=>{}}/>
+          </View>
+          <View style={[styles.buttonContainer]}>
+            <Button title="Valider" onPress={()=>{ navigation.navigate('Root') }}/>
+          </View>
+        </View>
+      </ScrollView>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({

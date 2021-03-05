@@ -29,7 +29,6 @@ const Stack = createStackNavigator<RootStackParamList>();
 function RootNavigator() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      
       <Stack.Screen name="Onboarding" component={Onboarding} />
       <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen name="Root" component={BottomTabNavigator} />

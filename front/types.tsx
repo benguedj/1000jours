@@ -17,3 +17,14 @@ export type TabOneParamList = {
 export type TabTwoParamList = {
   TabTwoScreen: undefined;
 };
+
+export type UserSituation = {
+  id: number;
+  label: string;
+  isChecked: boolean;
+}
+
+export type UserContext = {
+  situations: UserSituation[];
+  childBirthday: Date | null;    
+}

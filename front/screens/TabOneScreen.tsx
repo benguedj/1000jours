@@ -1,48 +1,61 @@
 import * as React from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { Image, ImageSourcePropType, StyleSheet, Text } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { range } from 'lodash';
 import { View } from '../components/Themed';
 import TimelineStep from '../components/timeline/TimlineStep';
 import Colors from '../constants/Colors';
+import stepIcon1 from '../assets/images/OLD_icone-projet-parent.png';
+import stepIcon2 from '../assets/images/OLD_Icone-conception.png';
+import stepIcon3 from '../assets/images/OLD_Icone-debut-de-grossesse.png';
+import stepIcon4 from '../assets/images/OLD_Icone-fin-de-grossesse.png';
+import stepIcon5 from '../assets/images/OLD_Icone-accouchement.png';
+import stepIcon6 from '../assets/images/OLD_Icone-4-premiers-mois.png';
+import stepIcon7 from '../assets/images/OLD_Icone-4-mois-a-1-an.png';
+import stepIcon8 from '../assets/images/OLD_Icone-1-a-2-ans.png';
+
+type Step = {
+  title: string,
+  icon: ImageSourcePropType
+}
 
 export default function TabOneScreen() {
 
   const title = 'Choisissez l\'étape que vous souhaitez approfondir';
   const description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
 
-  const steps = [
+  const steps: Step[] = [
     {
       title: "Projet de parentalité",
-      icon: "./assets/images/step.svg"
+      icon: stepIcon1
     },
     {
       title: "Conception",
-      icon: "./assets/images/step.svg"
+      icon: stepIcon2
     },
     {
       title: "Début de grossesse",
-      icon: "./assets/images/step.svg"
+      icon: stepIcon3
     },
     {
       title: "Suite et fin de grossesse",
-      icon: "./assets/images/step.svg"
+      icon: stepIcon4
     },
     {
       title: "Accouchement",
-      icon: "./assets/images/step.svg"
+      icon: stepIcon5
     },
     {
       title: "Ses 3 premiers mois",
-      icon: "./assets/images/step.svg"
+      icon: stepIcon6
     },
     {
       title: "De ses 4 mois à 1 an",
-      icon: "./assets/images/step.svg"
+      icon: stepIcon7
     },
     {
       title: "De sa 1ère année à sa 2ème année",
-      icon: "./assets/images/step.svg"
+      icon: stepIcon8
     },
   ];
 
@@ -72,7 +85,7 @@ export default function TabOneScreen() {
 const styles = StyleSheet.create({
   title: {
     color: Colors.primaryColor,
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: 'bold',
     marginBottom: 10
   },
