@@ -1,41 +1,51 @@
 import * as React from 'react';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { Button, Image, ImageSourcePropType, StyleSheet, Text, Dimensions } from 'react-native';
 import { View } from '../components/Themed';
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
 import Colors from '../constants/Colors';
+import firstSlideImage from '../assets/images/Humaaans-3-Characters.png';
+import secondSlideImage from '../assets/images/Humaaans-Sitting.png';
+import thirdSlideImage from '../assets/images/Humaaans-2-Characters.png';
 
-interface Props {
-  navigation: any
-}
-interface SlideView {
+// type ProfileScreenNavigationProp = StackNavigationProp<
+//   RootStackParamList,
+//   'Profile'
+// >;
+
+// type Props = {
+//   navigation: ProfileScreenNavigationProp;
+// };
+
+type SlideView = {
   title: string,
   image: ImageSourcePropType,
   description: string,
 }
 
-export class Onboarding extends React.Component<Props> {
+export const Onboarding: React.FC = ({ navigation }) => {
 
-  appName = '1000 JOURS APP\'';
-  slideViews: SlideView[] = [
+  const appName = '1000 JOURS APP\'';
+  const slideViews: SlideView[] = [
     { 
       title: 'Bienvenue sur l\'application', 
-      image: require('../assets/images/Humaaans-3-Characters.png'), 
+      image: firstSlideImage, 
       description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Accumsan tortor posuere ac ut consequat semper viverra. Purus in mollis nunc sed id.'
     },
     { 
       title: 'Trouver les informations', 
-      image: require('../assets/images/Humaaans-Sitting.png'), 
+      image: secondSlideImage,
       description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Accumsan tortor posuere ac ut consequat semper viverra. Purus in mollis nunc sed id.'
     },
     { 
       title: 'Connaître les différentes étapes', 
-      image: require('../assets/images/Humaaans-2-Characters.png'), 
+      image: thirdSlideImage,
       description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Accumsan tortor posuere ac ut consequat semper viverra. Purus in mollis nunc sed id.'
     }
   ];
   
-  getSlideViews = () => {
-    return this.slideViews.map((slideView, index) => {
+  const getSlideViews = () => {
+    return slideViews.map((slideView, index) => {
         return ( 
         <View style={[styles.swipeView, styles.justifyContentCenter]} key={index}>
           <View style={[styles.justifyContentCenter]}>
@@ -48,39 +58,35 @@ export class Onboarding extends React.Component<Props> {
     });
   }
 
-  render() {
-    return (
-      <View style={[styles.mainContainer]}>
-        <View style={[styles.header, styles.justifyContentCenter]}>
-          <Text style={[styles.appName]}>{this.appName}</Text>
+  return (
+    <View style={[styles.mainContainer]}>
+      <View style={[styles.header, styles.justifyContentCenter]}>
+        <Text style={[styles.appName]}>{appName}</Text>
+      </View>
+      <View style={[styles.body, styles.justifyContentCenter]}>
+        <SwiperFlatList
+          autoplay={false}
+          showPagination
+          paginationDefaultColor='lightgray'
+          paginationActiveColor={Colors.primaryColor}
+          paginationStyleItem={styles.swipePaginationItem}>
+          {getSlideViews()}
+        </SwiperFlatList>
+      </View>
+      <View style={[styles.footer, styles.justifyContentCenter]}>
+        <View style={[styles.buttonContainer]}>
+          <Button title="Passer" onPress={()=>{ navigation.navigate('Profile') }}/>
         </View>
-        <View style={[styles.body, styles.justifyContentCenter]}>
-          <SwiperFlatList
-            autoplay={false}
-            showPagination
-            paginationDefaultColor='lightgray'
-            paginationActiveColor={Colors.primaryColor}
-            paginationStyleItem={styles.swipePaginationItem}>
-            {this.getSlideViews()}
-          </SwiperFlatList>
-        </View>
-        
-        <View style={[styles.footer, styles.justifyContentCenter]}>
-          <View style={[styles.buttonContainer]}>
-            <Button title="Passer" onPress={()=>{}}/>
-          </View>
-          <View style={[styles.buttonContainer]}>
-            <Button title="Suivant" onPress={()=>{
-              this.props.navigation.navigate('Profile');
-            }}/>
-          </View>
+        <View style={[styles.buttonContainer]}>
+          <Button title="Suivant" onPress={()=>{ navigation.navigate('Profile') }}/>
         </View>
       </View>
-    );
-  }
+    </View>
+  );
 }
 
-const width = Dimensions.get('window').width - 40;
+const paddingOfSlideView = 30;
+const width = Dimensions.get('window').width - paddingOfSlideView;
 const styles = StyleSheet.create({
   mainContainer: {
     paddingTop: 30,
@@ -105,7 +111,7 @@ const styles = StyleSheet.create({
     color: Colors.primaryColor,
   },
   swipeView: {
-    width: Dimensions.get('window').width - 30,
+    width
   },
   swipePaginationItem: {
     width: 30,

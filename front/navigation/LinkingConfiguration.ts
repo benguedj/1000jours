@@ -5,7 +5,7 @@ export default {
     screens: {
       notFound: "*",
       onboarding: 'onboarding',
-      informations: 'informations',
+      profile: 'profile',
       root: {
         screens: {
           tabOne: {

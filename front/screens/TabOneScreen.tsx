@@ -1,8 +1,21 @@
 import { range } from "lodash";
 import type { FC } from "react";
 import * as React from "react";
-import { StyleSheet, Text } from "react-native";
+import { ImageSourcePropType, StyleSheet, Text } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
+import stepIcon1 from '../assets/images/OLD_icone-projet-parent.png';
+import stepIcon2 from '../assets/images/OLD_Icone-conception.png';
+import stepIcon3 from '../assets/images/OLD_Icone-debut-de-grossesse.png';
+import stepIcon4 from '../assets/images/OLD_Icone-fin-de-grossesse.png';
+import stepIcon5 from '../assets/images/OLD_Icone-accouchement.png';
+import stepIcon6 from '../assets/images/OLD_Icone-4-premiers-mois.png';
+import stepIcon7 from '../assets/images/OLD_Icone-4-mois-a-1-an.png';
+import stepIcon8 from '../assets/images/OLD_Icone-1-a-2-ans.png';
+
+type Step = {
+  title: string,
+  icon: ImageSourcePropType
+}
 
 import { View } from "../components/Themed";
 import TimelineStep from "../components/timeline/TimlineStep";
@@ -13,46 +26,38 @@ const TabOneScreen: FC = () => {
   const description =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
 
-  const steps = [
+  const steps: Step[] = [
     {
-      icon:
-        "https://upload.wikimedia.org/wikipedia/commons/2/24/Circle-icons-image.svg",
       title: "Projet de parentalité",
+      icon: stepIcon1
     },
     {
-      icon:
-        "https://upload.wikimedia.org/wikipedia/commons/2/24/Circle-icons-image.svg",
       title: "Conception",
+      icon: stepIcon2
     },
     {
-      icon:
-        "https://upload.wikimedia.org/wikipedia/commons/2/24/Circle-icons-image.svg",
       title: "Début de grossesse",
+      icon: stepIcon3
     },
     {
-      icon:
-        "https://upload.wikimedia.org/wikipedia/commons/2/24/Circle-icons-image.svg",
       title: "Suite et fin de grossesse",
+      icon: stepIcon4
     },
     {
-      icon:
-        "https://upload.wikimedia.org/wikipedia/commons/2/24/Circle-icons-image.svg",
       title: "Accouchement",
+      icon: stepIcon5
     },
     {
-      icon:
-        "https://upload.wikimedia.org/wikipedia/commons/2/24/Circle-icons-image.svg",
       title: "Ses 3 premiers mois",
+      icon: stepIcon6
     },
     {
-      icon:
-        "https://upload.wikimedia.org/wikipedia/commons/2/24/Circle-icons-image.svg",
       title: "De ses 4 mois à 1 an",
+      icon: stepIcon7
     },
     {
-      icon:
-        "https://upload.wikimedia.org/wikipedia/commons/2/24/Circle-icons-image.svg",
       title: "De sa 1ère année à sa 2ème année",
+      icon: stepIcon8
     },
   ];
 

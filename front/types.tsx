@@ -1,6 +1,6 @@
 export type RootStackParamList = {
   onboarding: undefined;
-  informations: undefined;
+  profile: undefined;
   root: undefined;
   notFound: undefined;
 };
