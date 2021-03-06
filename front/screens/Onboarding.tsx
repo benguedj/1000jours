@@ -1,21 +1,20 @@
 import * as React from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { Button, Image, ImageSourcePropType, StyleSheet, Text, Dimensions } from 'react-native';
+import { Image, ImageSourcePropType, StyleSheet, Text, Dimensions, TouchableOpacity } from 'react-native';
 import { View } from '../components/Themed';
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
 import Colors from '../constants/Colors';
 import firstSlideImage from '../assets/images/Humaaans-3-Characters.png';
 import secondSlideImage from '../assets/images/Humaaans-Sitting.png';
 import thirdSlideImage from '../assets/images/Humaaans-2-Characters.png';
+import { RootStackParamList } from '../types';
+import Button from '../components/form/Button';
 
-// type ProfileScreenNavigationProp = StackNavigationProp<
-//   RootStackParamList,
-//   'Profile'
-// >;
+type ProfileScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Onboarding'>;
 
-// type Props = {
-//   navigation: ProfileScreenNavigationProp;
-// };
+type Props = {
+  navigation: ProfileScreenNavigationProp;
+};
 
 type SlideView = {
   title: string,
@@ -23,7 +22,7 @@ type SlideView = {
   description: string,
 }
 
-export const Onboarding: React.FC = ({ navigation }) => {
+export const Onboarding: React.FC<Props> = ({ navigation }) => {
 
   const appName = '1000 JOURS APP\'';
   const slideViews: SlideView[] = [
@@ -43,20 +42,9 @@ export const Onboarding: React.FC = ({ navigation }) => {
       description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Accumsan tortor posuere ac ut consequat semper viverra. Purus in mollis nunc sed id.'
     }
   ];
-  
-  const getSlideViews = () => {
-    return slideViews.map((slideView, index) => {
-        return ( 
-        <View style={[styles.swipeView, styles.justifyContentCenter]} key={index}>
-          <View style={[styles.justifyContentCenter]}>
-            <Image source={slideView.image}/>
-          </View>
-          <Text style={[styles.title, styles.textAlignCenter]}>{slideView.title}</Text>
-          <Text style={[styles.textAlignCenter]}>{slideView.description}</Text>
-        </View>
-      )
-    });
-  }
+
+  const [swiperCurrentIndex, setSwiperCurrentIndex] = React.useState(0);
+  const swiperRef = React.useRef<SwiperFlatList>(null);
 
   return (
     <View style={[styles.mainContainer]}>
@@ -65,21 +53,43 @@ export const Onboarding: React.FC = ({ navigation }) => {
       </View>
       <View style={[styles.body, styles.justifyContentCenter]}>
         <SwiperFlatList
+          ref={swiperRef}
+          onChangeIndex={({ index }) => {
+            setSwiperCurrentIndex(index);
+          }}
           autoplay={false}
           showPagination
           paginationDefaultColor='lightgray'
           paginationActiveColor={Colors.primaryColor}
           paginationStyleItem={styles.swipePaginationItem}>
-          {getSlideViews()}
+          {
+            slideViews.map((slideView, index) => {
+              return ( 
+                <View style={[styles.swipeView, styles.justifyContentCenter]} key={index}>
+                  <View style={[styles.justifyContentCenter]}>
+                    <Image source={slideView.image}/>
+                  </View>
+                  <Text style={[styles.title, styles.textAlignCenter]}>{slideView.title}</Text>
+                  <Text style={[styles.textAlignCenter]}>{slideView.description}</Text>
+                </View>
+              )
+            })
+          }
         </SwiperFlatList>
       </View>
       <View style={[styles.footer, styles.justifyContentCenter]}>
-        <View style={[styles.buttonContainer]}>
-          <Button title="Passer" onPress={()=>{ navigation.navigate('Profile') }}/>
-        </View>
-        <View style={[styles.buttonContainer]}>
-          <Button title="Suivant" onPress={()=>{ navigation.navigate('Profile') }}/>
-        </View>
+      {
+        (swiperCurrentIndex === slideViews.length - 1) ? (
+          <View style={[styles.justifyContentCenter]}>
+            <Button title="Commencer" rounded={true} disabled={false} action={() => { navigation.navigate('Profile') }}/>
+          </View>
+        ) : (
+          <View style={[styles.buttonsContainer, styles.justifyContentCenter]}>
+            <Button title="Passer" rounded={false} disabled={false} action={() => { navigation.navigate('Profile') }}/>
+            <Button title="Suivant" rounded={false} disabled={false} action={() => { swiperRef.current?.scrollToIndex({index: swiperCurrentIndex + 1}) }}/>
+          </View>
+        )
+      }
       </View>
     </View>
   );
@@ -102,6 +112,9 @@ const styles = StyleSheet.create({
     flex: 4,
   },
   footer: {
+    flex: 1,
+  },
+  buttonsContainer: {
     flex: 1,
     flexDirection: 'row',
   },
@@ -130,10 +143,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     paddingTop: 10,
     paddingBottom: 10,
-  },
-  buttonContainer: {
-    flex: 1,
-    marginLeft: 5,
-    marginRight: 5,
   }
 });

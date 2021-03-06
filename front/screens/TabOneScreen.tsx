@@ -87,10 +87,10 @@ const styles = StyleSheet.create({
     color: Colors.primaryColor,
     fontSize: 15,
     fontWeight: 'bold',
-    marginBottom: 10
+    marginBottom: 10,
   },
   description: {
-    color: Colors.tertiaryColor,
+    color: Colors.textColor,
   },
   mainContainer: {
     paddingTop: 15,
