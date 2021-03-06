@@ -1,15 +1,16 @@
 import * as React from 'react';
-import { Button, Image, ImageSourcePropType, StyleSheet, Text, ScrollView } from 'react-native';
+import {Image, ImageSourcePropType, StyleSheet, Text, ScrollView } from 'react-native';
 import CheckBox from 'react-native-check-box';
 import { View } from '../components/Themed';
 import Colors from '../constants/Colors';
-import { UserContext, UserSituation } from '../types';
+import { RootStackParamList, UserContext, UserSituation } from '../types';
 import profileImage from '../assets/images/Humaaans-Space1.png';
+import { StackNavigationProp } from '@react-navigation/stack';
+import Button from '../components/form/Button';
 
-interface Props {
-  navigation: any
-}
-export const Profile: React.FC = ({ navigation }) => {
+type Props = {navigation: StackNavigationProp<RootStackParamList, 'Profile'>};
+
+export const Profile: React.FC<Props> = ({ navigation }) => {
 
   const appName = '1000 JOURS APP\'';
   const image: ImageSourcePropType = profileImage;
@@ -27,20 +28,34 @@ export const Profile: React.FC = ({ navigation }) => {
     childBirthday: null
   };
 
-  const [userContext, setUserContext] = React.useState<UserContext>(defaultUserContext);
-  const updateSituation = (situation: UserSituation) => {
-    setUserContext( (previousUserContext) => {
-      const newSituations = previousUserContext.situations.map((item) => {
-        if (item.id === situation.id) {
-          console.log(!situation.isChecked);
-          return { ...item, isChecked: !situation.isChecked };
+  const hasCheckedSituation = () => {
+    for(let userSituation of userSituations) {
+      if(userSituation.isChecked) { return true; }
+    }
+    return false;
+  }
+
+  const [userSituations, setUserSituations] = React.useState<UserSituation[]>(defaultUserContext.situations);
+  const [childBirthday, setChildBirthday] = React.useState<Date|null>(defaultUserContext.childBirthday);
+  const [hasCheckedUserSituation, setHasCheckedSituation] = React.useState<boolean>( hasCheckedSituation() );
+
+  const updateUserSituations = (userSituation: UserSituation) => {
+    setUserSituations((userSituations) => {
+      return userSituations.map((item) => {
+        if (item.id === userSituation.id) {
+          return { ...item, isChecked: !userSituation.isChecked };
         } else {
           return item;
         }
       });
-      return {...previousUserContext, situations: newSituations}
     });
   };
+
+  React.useEffect(() => {
+    setHasCheckedSituation(hasCheckedSituation());
+    console.log(hasCheckedSituation());
+    
+  }, [userSituations]);
 
   return (    
     <View style={[styles.mainContainer]}>
@@ -53,13 +68,13 @@ export const Profile: React.FC = ({ navigation }) => {
         </View>
         <Text style={[styles.title, styles.textAlignCenter]}>{title}</Text>
         <View style={[styles.choices]}>
-          {userContext.situations.map((situation, index) =>
+          {userSituations.map((situation, index) =>
           { 
             return (
               <CheckBox 
                 key={index}
                 style={[styles.checkbox]}
-                onClick={() => updateSituation(situation)}
+                onClick={() => updateUserSituations(situation)}
                 isChecked={situation.isChecked}
                 rightText={situation.label}
                 checkBoxColor={Colors.primaryColor}
@@ -69,10 +84,10 @@ export const Profile: React.FC = ({ navigation }) => {
         </View>
         <View style={[styles.footer, styles.justifyContentCenter]}>
           <View style={[styles.buttonContainer]}>
-            <Button title="Passer" onPress={()=>{}}/>
+            <Button title="Passer" rounded={false} disabled={false} action={()=>{ navigation.navigate('Root') }}/>
           </View>
           <View style={[styles.buttonContainer]}>
-            <Button title="Valider" onPress={()=>{ navigation.navigate('Root') }}/>
+            <Button title="Valider" rounded={true} disabled={!hasCheckedUserSituation} action={()=>{ navigation.navigate('Root') }}/>
           </View>
         </View>
       </ScrollView>

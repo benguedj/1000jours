@@ -105,8 +105,14 @@ const TabOneScreen: FC = () => {
 };
 
 const styles = StyleSheet.create({
+  title: {
+    color: Colors.primaryColor,
+    fontSize: 15,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
   description: {
-    color: Colors.tertiaryColor,
+    color: Colors.textColor,
   },
   mainContainer: {
     backgroundColor: "white",
@@ -151,12 +157,6 @@ const styles = StyleSheet.create({
     marginLeft: "5%",
     marginRight: "5%",
     marginTop: 80,
-  },
-  title: {
-    color: Colors.primaryColor,
-    fontSize: 14,
-    fontWeight: "bold",
-    marginBottom: 10,
   },
 });
 
