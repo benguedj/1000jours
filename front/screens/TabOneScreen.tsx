@@ -1,25 +1,26 @@
 import { range } from "lodash";
 import type { FC } from "react";
 import * as React from "react";
-import { ImageSourcePropType, StyleSheet, Text } from "react-native";
+import type { ImageSourcePropType } from "react-native";
+import { StyleSheet, Text } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import stepIcon1 from '../assets/images/OLD_icone-projet-parent.png';
-import stepIcon2 from '../assets/images/OLD_Icone-conception.png';
-import stepIcon3 from '../assets/images/OLD_Icone-debut-de-grossesse.png';
-import stepIcon4 from '../assets/images/OLD_Icone-fin-de-grossesse.png';
-import stepIcon5 from '../assets/images/OLD_Icone-accouchement.png';
-import stepIcon6 from '../assets/images/OLD_Icone-4-premiers-mois.png';
-import stepIcon7 from '../assets/images/OLD_Icone-4-mois-a-1-an.png';
-import stepIcon8 from '../assets/images/OLD_Icone-1-a-2-ans.png';
 
-type Step = {
-  title: string,
-  icon: ImageSourcePropType
-}
-
+import stepIcon8 from "../assets/images/OLD_Icone-1-a-2-ans.png";
+import stepIcon7 from "../assets/images/OLD_Icone-4-mois-a-1-an.png";
+import stepIcon6 from "../assets/images/OLD_Icone-4-premiers-mois.png";
+import stepIcon5 from "../assets/images/OLD_Icone-accouchement.png";
+import stepIcon2 from "../assets/images/OLD_Icone-conception.png";
+import stepIcon3 from "../assets/images/OLD_Icone-debut-de-grossesse.png";
+import stepIcon4 from "../assets/images/OLD_Icone-fin-de-grossesse.png";
+import stepIcon1 from "../assets/images/OLD_icone-projet-parent.png";
 import { View } from "../components/Themed";
 import TimelineStep from "../components/timeline/TimlineStep";
 import Colors from "../constants/Colors";
+
+interface Step {
+  title: string;
+  icon: ImageSourcePropType;
+}
 
 const TabOneScreen: FC = () => {
   const screenTitle = "Choisissez l'étape que vous souhaitez approfondir";
@@ -28,36 +29,36 @@ const TabOneScreen: FC = () => {
 
   const steps: Step[] = [
     {
+      icon: stepIcon1,
       title: "Projet de parentalité",
-      icon: stepIcon1
     },
     {
+      icon: stepIcon2,
       title: "Conception",
-      icon: stepIcon2
     },
     {
+      icon: stepIcon3,
       title: "Début de grossesse",
-      icon: stepIcon3
     },
     {
+      icon: stepIcon4,
       title: "Suite et fin de grossesse",
-      icon: stepIcon4
     },
     {
+      icon: stepIcon5,
       title: "Accouchement",
-      icon: stepIcon5
     },
     {
+      icon: stepIcon6,
       title: "Ses 3 premiers mois",
-      icon: stepIcon6
     },
     {
+      icon: stepIcon7,
       title: "De ses 4 mois à 1 an",
-      icon: stepIcon7
     },
     {
+      icon: stepIcon8,
       title: "De sa 1ère année à sa 2ème année",
-      icon: stepIcon8
     },
   ];
 
@@ -105,12 +106,6 @@ const TabOneScreen: FC = () => {
 };
 
 const styles = StyleSheet.create({
-  title: {
-    color: Colors.primaryColor,
-    fontSize: 15,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
   description: {
     color: Colors.textColor,
   },
@@ -157,6 +152,12 @@ const styles = StyleSheet.create({
     marginLeft: "5%",
     marginRight: "5%",
     marginTop: 80,
+  },
+  title: {
+    color: Colors.primaryColor,
+    fontSize: 15,
+    fontWeight: "bold",
+    marginBottom: 10,
   },
 });
 

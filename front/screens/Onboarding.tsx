@@ -1,46 +1,54 @@
-import * as React from 'react';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { Image, ImageSourcePropType, StyleSheet, Text, Dimensions, TouchableOpacity } from 'react-native';
-import { View } from '../components/Themed';
-import { SwiperFlatList } from 'react-native-swiper-flatlist';
-import Colors from '../constants/Colors';
-import firstSlideImage from '../assets/images/Humaaans-3-Characters.png';
-import secondSlideImage from '../assets/images/Humaaans-Sitting.png';
-import thirdSlideImage from '../assets/images/Humaaans-2-Characters.png';
-import { RootStackParamList } from '../types';
-import Button from '../components/form/Button';
+import type { StackNavigationProp } from "@react-navigation/stack";
+import type { FC } from "react";
+import * as React from "react";
+import type { ImageSourcePropType } from "react-native";
+import { Dimensions, Image, StyleSheet, Text } from "react-native";
+import { SwiperFlatList } from "react-native-swiper-flatlist";
 
-type ProfileScreenNavigationProp = StackNavigationProp<RootStackParamList, 'onboarding'>;
+import thirdSlideImage from "../assets/images/Humaaans-2-Characters.png";
+import firstSlideImage from "../assets/images/Humaaans-3-Characters.png";
+import secondSlideImage from "../assets/images/Humaaans-Sitting.png";
+import Button from "../components/form/Button";
+import { View } from "../components/Themed";
+import Colors from "../constants/Colors";
+import type { RootStackParamList } from "../types";
 
-type Props = {
+type ProfileScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  "onboarding"
+>;
+
+interface Props {
   navigation: ProfileScreenNavigationProp;
-};
-
-type SlideView = {
-  title: string,
-  image: ImageSourcePropType,
-  description: string,
 }
 
-export const Onboarding: React.FC<Props> = ({ navigation }) => {
+interface SlideView {
+  title: string;
+  image: ImageSourcePropType;
+  description: string;
+}
 
-  const appName = '1000 JOURS APP\'';
+export const Onboarding: FC<Props> = ({ navigation }) => {
+  const appName = "1000 JOURS APP'";
   const slideViews: SlideView[] = [
-    { 
-      title: 'Bienvenue sur l\'application', 
-      image: firstSlideImage, 
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Accumsan tortor posuere ac ut consequat semper viverra. Purus in mollis nunc sed id.'
+    {
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Accumsan tortor posuere ac ut consequat semper viverra. Purus in mollis nunc sed id.",
+      image: firstSlideImage,
+      title: "Bienvenue sur l'application",
     },
-    { 
-      title: 'Trouver les informations', 
+    {
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Accumsan tortor posuere ac ut consequat semper viverra. Purus in mollis nunc sed id.",
       image: secondSlideImage,
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Accumsan tortor posuere ac ut consequat semper viverra. Purus in mollis nunc sed id.'
+      title: "Trouver les informations",
     },
-    { 
-      title: 'Connaître les différentes étapes', 
+    {
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Accumsan tortor posuere ac ut consequat semper viverra. Purus in mollis nunc sed id.",
       image: thirdSlideImage,
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Accumsan tortor posuere ac ut consequat semper viverra. Purus in mollis nunc sed id.'
-    }
+      title: "Connaître les différentes étapes",
+    },
   ];
 
   const [swiperCurrentIndex, setSwiperCurrentIndex] = React.useState(0);
@@ -59,89 +67,116 @@ export const Onboarding: React.FC<Props> = ({ navigation }) => {
           }}
           autoplay={false}
           showPagination
-          paginationDefaultColor='lightgray'
+          paginationDefaultColor="lightgray"
           paginationActiveColor={Colors.primaryColor}
-          paginationStyleItem={styles.swipePaginationItem}>
-          {
-            slideViews.map((slideView, index) => {
-              return ( 
-                <View style={[styles.swipeView, styles.justifyContentCenter]} key={index}>
-                  <View style={[styles.justifyContentCenter]}>
-                    <Image source={slideView.image}/>
-                  </View>
-                  <Text style={[styles.title, styles.textAlignCenter]}>{slideView.title}</Text>
-                  <Text style={[styles.textAlignCenter]}>{slideView.description}</Text>
+          paginationStyleItem={styles.swipePaginationItem}
+        >
+          {slideViews.map((slideView, index) => {
+            return (
+              <View
+                style={[styles.swipeView, styles.justifyContentCenter]}
+                key={index}
+              >
+                <View style={[styles.justifyContentCenter]}>
+                  <Image source={slideView.image} />
                 </View>
-              )
-            })
-          }
+                <Text style={[styles.title, styles.textAlignCenter]}>
+                  {slideView.title}
+                </Text>
+                <Text style={[styles.textAlignCenter]}>
+                  {slideView.description}
+                </Text>
+              </View>
+            );
+          })}
         </SwiperFlatList>
       </View>
       <View style={[styles.footer, styles.justifyContentCenter]}>
-      {
-        (swiperCurrentIndex === slideViews.length - 1) ? (
+        {swiperCurrentIndex === slideViews.length - 1 ? (
           <View style={[styles.justifyContentCenter]}>
-            <Button title="Commencer" rounded={true} disabled={false} action={() => { navigation.navigate('profile') }}/>
+            <Button
+              title="Commencer"
+              rounded={true}
+              disabled={false}
+              action={() => {
+                navigation.navigate("profile");
+              }}
+            />
           </View>
         ) : (
           <View style={[styles.buttonsContainer, styles.justifyContentCenter]}>
-            <Button title="Passer" rounded={false} disabled={false} action={() => { navigation.navigate('profile') }}/>
-            <Button title="Suivant" rounded={false} disabled={false} action={() => { swiperRef.current?.scrollToIndex({index: swiperCurrentIndex + 1}) }}/>
+            <Button
+              title="Passer"
+              rounded={false}
+              disabled={false}
+              action={() => {
+                navigation.navigate("profile");
+              }}
+            />
+            <Button
+              title="Suivant"
+              rounded={false}
+              disabled={false}
+              action={() => {
+                swiperRef.current?.scrollToIndex({
+                  index: swiperCurrentIndex + 1,
+                });
+              }}
+            />
           </View>
-        )
-      }
+        )}
       </View>
     </View>
   );
-}
+};
 
 const paddingOfSlideView = 30;
-const width = Dimensions.get('window').width - paddingOfSlideView;
+const width = Dimensions.get("window").width - paddingOfSlideView;
 const styles = StyleSheet.create({
-  mainContainer: {
-    paddingTop: 30,
-    paddingLeft: 15,
-    paddingRight: 15,
-    flex: 1,
-    flexDirection: 'column',
-  },
-  header: {
-    flex: 0.5,
+  appName: {
+    color: Colors.primaryColor,
+    fontSize: 25,
+    fontWeight: "bold",
   },
   body: {
     flex: 4,
   },
+  buttonsContainer: {
+    flex: 1,
+    flexDirection: "row",
+  },
   footer: {
     flex: 1,
   },
-  buttonsContainer: {
-    flex: 1,
-    flexDirection: 'row',
-  },
-  appName: {
-    fontSize: 25,
-    fontWeight: 'bold',
-    color: Colors.primaryColor,
-  },
-  swipeView: {
-    width
-  },
-  swipePaginationItem: {
-    width: 30,
-    height: 5,
+  header: {
+    flex: 0.5,
   },
   justifyContentCenter: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  mainContainer: {
+    flex: 1,
+    flexDirection: "column",
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingTop: 30,
+  },
+  swipePaginationItem: {
+    height: 5,
+    width: 30,
+  },
+  swipeView: {
+    width,
   },
   textAlignCenter: {
-    textAlign: 'center',
+    textAlign: "center",
   },
   title: {
     color: Colors.primaryColor,
     fontSize: 18,
-    fontWeight: 'bold',
-    paddingTop: 10,
+    fontWeight: "bold",
     paddingBottom: 10,
-  }
+    paddingTop: 10,
+  },
 });

@@ -7,10 +7,10 @@ import { createStackNavigator } from "@react-navigation/stack";
 import type { FC } from "react";
 import * as React from "react";
 import type { ColorSchemeName } from "react-native";
-import { Profile } from "../screens/profile";
 
 import NotFoundScreen from "../screens/NotFoundScreen";
 import { Onboarding } from "../screens/Onboarding";
+import { Profile } from "../screens/Profile";
 import type { RootStackParamList } from "../types";
 import BottomTabNavigator from "./BottomTabNavigator";
 import LinkingConfiguration from "./LinkingConfiguration";
@@ -51,4 +51,3 @@ const RootNavigator: FC = () => (
 );
 
 export default Navigation;
-

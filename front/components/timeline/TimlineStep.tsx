@@ -1,7 +1,9 @@
 import type { FC } from "react";
 import * as React from "react";
-import { Image, ImageSourcePropType, StyleSheet } from "react-native";
+import type { ImageSourcePropType } from "react-native";
+import { Image, StyleSheet } from "react-native";
 
+import Colors from "../../constants/Colors";
 import { Text, View } from "../Themed";
 
 interface TimelineStepProps {
@@ -39,7 +41,9 @@ const TimelineStep: FC<TimelineStepProps> = ({
 
   return (
     <View style={getStyles(listIndex, isTheLast)}>
-      <Image style={[styles.stepIcon]} source={icon} />
+      <View style={[styles.stepIconContainer, styles.justifyContentCenter]}>
+        <Image source={icon} />
+      </View>
       <Text
         style={[
           styles.stepTitle,
@@ -57,6 +61,10 @@ const TimelineStep: FC<TimelineStepProps> = ({
 };
 
 const styles = StyleSheet.create({
+  justifyContentCenter: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
   step: {
     alignItems: "center",
     backgroundColor: "transparent",
@@ -67,11 +75,15 @@ const styles = StyleSheet.create({
   stepFirst: {
     paddingBottom: 60,
   },
-  stepIcon: {
+  stepIconContainer: {
+    borderColor: Colors.secondaryColor,
+    borderRadius: 40,
+    borderWidth: 1,
     height: 80,
     width: 80,
   },
   stepLast: {
+    paddingBottom: 20,
     paddingLeft: 0,
     paddingRight: 0,
     paddingTop: 80,
@@ -87,6 +99,7 @@ const styles = StyleSheet.create({
     textAlign: "right",
   },
   stepTitle: {
+    color: Colors.primaryColor,
     fontSize: 13,
     paddingLeft: 10,
     paddingRight: 10,
